@@ -1,0 +1,27 @@
+/* theming for panel and context menus */
+.crm-container #contact-summary-orgrelationship-tab ul.panel li {
+  background-color: #2F2F2E;
+}
+
+.crm-container #contact-summary-orgrelationship-tab ul.panel {
+  top: 15px;
+  right: 0;
+}
+
+.crm-container #contact-summary-orgrelationship-tab ul.panel li {
+  margin: 0;
+  padding: 2px;
+  list-style: none;
+  background-image: none;
+  width: auto;
+}
+
+.crm-container #contact-summary-orgrelationship-tab {
+  position: relative;
+}
+.crm-container #contact-summary-orgrelationship-tab .actions {
+  position: absolute;
+  right: 0;
+}
+
+
