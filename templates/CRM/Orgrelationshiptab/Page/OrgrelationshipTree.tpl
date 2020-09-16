@@ -3,7 +3,6 @@
   {foreach from=$tree item="node" key="id"}
     <li id="orgli_{$id}" class="data crm-entity{if $node.data.id eq $current} current{/if}" data-entity="relationship" data-id="{$id}">
       <span class="content">
-        <span>{$node.data.rel_name}</span>&nbsp;
         {if $node.data.id eq $current}
           <strong>{$node.data.display_name}</strong>&nbsp;[{$node.data.id}]
         {else}

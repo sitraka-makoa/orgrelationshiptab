@@ -2,7 +2,10 @@
 
   <h3>{ts}Current Relationships{/ts}</h3>
 
-  {include file="CRM/Orgrelationshiptab/Page/OrgrelationshipTree.tpl" tree=$tree level=0}
+  {foreach from=$tree item="subtree" key="rellabel"}
+    <h4>{$rellabel}</h4>
+    {include file="CRM/Orgrelationshiptab/Page/OrgrelationshipTree.tpl" tree=$subtree level=0}
+  {/foreach}
 
   <div class="spacer"></div>
   {* display past relationships *}

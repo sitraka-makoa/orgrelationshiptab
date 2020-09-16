@@ -9,22 +9,31 @@ class CRM_Orgrelationshiptab_Utils {
     // FIXME: some relation are the other way around - i.e. 
     $hiearchy = [];
 
-    // 1. get root parents
-    $roots = self::getRootParents($contactId, $relationship_type_id, 5);
+    // 1. get relationship types
+    $relationshipTypes = \Civi\Api4\RelationshipType::get()
+      ->addSelect('id', 'label_a_b')
+      ->addClause('OR', ['contact_type_a', '=', 'Organization'], ['contact_type_a', 'IS NULL'])
+      ->addClause('OR', ['contact_type_b', '=', 'Organization'], ['contact_type_b', 'IS NULL'])
+      ->execute();
+    foreach ($relationshipTypes as $relationshipType) {
 
-    // 2. recursively go through the hierarchy
-    foreach ($roots as $root) {
-      $h = self::getHierarchy($root, $relationship_type_id, $links);
-      $hierarchy[$root]['data'] = self::getOrgDetails($root);
-      if (!empty($h)) {
-        if (isset($hierarchy[$root]['children'])) {
-          //Civi::log()->debug('vs ' . print_r($hierarchy[$root]['children'],1). '--' .var_export($h,1));
-          $hierarchy[$root]['children'] += $h;
-        }
-        else {
-          $hierarchy[$root]['children'] = $h;
+      $typeLabel = $relationshipType['label_a_b'];
+
+      // 2. get root parents
+      $roots = self::getRootParents($contactId, $relationshipType['id'], 5);
+
+      // 3. recursively go through the hierarchy
+      foreach ($roots as $root) {
+        $h = self::getHierarchy($root, $relationshipType['id'], $links);
+        if (!empty($h)) {
+          $hierarchy[$typeLabel][$root]['children'] = $h;
+          $hierarchy[$typeLabel][$root]['data'] = self::getOrgDetails($root);
         }
       }
+
+      // remove relationship type without content
+      if (empty($hierarchy[$typeLabel])) unset($hierarchy[$typeLabel]);
+
     }
 
     return $hierarchy;
@@ -42,7 +51,7 @@ class CRM_Orgrelationshiptab_Utils {
       'sequential' => 1,
       'contact_id_b' => $contactId,
       'is_active' => 1,
-      //'relationship_type_id' => $relationship_type_id,
+      'relationship_type_id' => $relationship_type_id,
       'contact_id_a.contact_type' => "Organization",
       'return' => ['contact_id_a'],
       'option.limit' => 0,
@@ -82,7 +91,7 @@ class CRM_Orgrelationshiptab_Utils {
       'contact_id_a' => $contactId,
       'contact_id_b.contact_type' => "Organization",
       'is_active' => 1,
-      /*'relationship_type_id' => $relationship_type_id,*/
+      'relationship_type_id' => $relationship_type_id,
       'return' => ['id', 'contact_id_b', 'relationship_type_id.name_a_b'],
       'option.limit' => 0,
       'option.sort' => 'contact_id_b.display_name',
