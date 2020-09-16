@@ -4,14 +4,16 @@
 
   {foreach from=$tree item="subtree" key="rellabel"}
     <h4>{$rellabel}</h4>
+    <div class="reltree">
     {include file="CRM/Orgrelationshiptab/Page/OrgrelationshipTree.tpl" tree=$subtree level=0}
+    </div>
   {/foreach}
 
   <div class="spacer"></div>
   {* display past relationships *}
   <h3 class="font-red">{ts}Inactive Relationships{/ts}</h3>
   <div class="help">{ts}These relationships are Disabled OR have a past End Date.{/ts}</div>
-  {include file="CRM/Orgrelationshiptab/Page/OrgrelationshipSelector.tpl" context="past" relationship_type_id="11"}
+  {include file="CRM/Orgrelationshiptab/Page/View/OrgrelationshipSelector.tpl" context="past" relationship_type_id="11"}
 </div>
 
 {include file="CRM/common/enableDisableApi.tpl"}
