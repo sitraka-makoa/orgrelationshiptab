@@ -1,5 +1,11 @@
 <div id="contact-summary-orgrelationship-tab" class="view-content">
 
+  {if $permission EQ 'edit'}
+    <div class="action-link">
+     {crmButton accesskey="N"  p='civicrm/contact/view/rel' q="cid=`$contactId`&action=add&reset=1" icon="plus-circle"}{ts}Add Relationship{/ts}{/crmButton}
+    </div>
+  {/if}
+
   <h3>{ts}Current Relationships{/ts}</h3>
 
   {foreach from=$tree item="subtree" key="rellabel"}

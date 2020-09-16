@@ -19,9 +19,13 @@
 .crm-container #contact-summary-orgrelationship-tab {
   position: relative;
 }
+.crm-container #contact-summary-orgrelationship-tab div.reltree {
+  display: table;
+}
 .crm-container #contact-summary-orgrelationship-tab .actions {
-  position: absolute;
-  right: 0;
+  /*position: absolute;
+  right: 0;*/
+  float: right;
 }
 
 
