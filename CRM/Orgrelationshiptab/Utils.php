@@ -41,6 +41,7 @@ class CRM_Orgrelationshiptab_Utils {
     $result = civicrm_api3('Relationship', 'get', [
       'sequential' => 1,
       'contact_id_b' => $contactId,
+      'is_active' => 1,
       //'relationship_type_id' => $relationship_type_id,
       'contact_id_a.contact_type' => "Organization",
       'return' => ['contact_id_a'],
@@ -53,7 +54,7 @@ class CRM_Orgrelationshiptab_Utils {
       foreach ($result['values'] as $rel) {
         $parent = $rel['contact_id_a'];
         $roots = self::getRootParents($parent, $relationship_type_id, $max-1);
-        Civi::log()->debug('new roots -- ' . print_r($roots,1));
+        //Civi::log()->debug('new roots -- ' . print_r($roots,1));
         $items = array_merge($items,$roots);
       }
       //Civi::log()->debug('items -- ' . $result['count'] . ' -- ' . print_r($items,1));
@@ -70,9 +71,9 @@ class CRM_Orgrelationshiptab_Utils {
     if ($max == 0) return [];
 
     // API v4 is not working
-/*    $relationships = \Civi\Api4\Relationship::get()
-      ->addWhere('contact_id_a', '=', 3901) //$contactId)
-      ->addWhere('relationship_type_id', '=', 11) //$relationship_type_id)
+    /*$relationships = \Civi\Api4\Relationship::get()
+      ->addWhere('contact_id_a', '=', $contactId)
+      ->addWhere('relationship_id_b.contact_type', '=', 'Organization')
       ->setCurrent(TRUE)
       ->execute();*/
 
@@ -80,9 +81,11 @@ class CRM_Orgrelationshiptab_Utils {
     $relationships = civicrm_api3('Relationship', 'get', [
       'contact_id_a' => $contactId,
       'contact_id_b.contact_type' => "Organization",
+      'is_active' => 1,
       /*'relationship_type_id' => $relationship_type_id,*/
       'return' => ['id', 'contact_id_b', 'relationship_type_id.name_a_b'],
       'option.limit' => 0,
+      'option.sort' => 'contact_id_b.display_name',
     ]);
 
     foreach ($relationships['values'] as $relationship) {
