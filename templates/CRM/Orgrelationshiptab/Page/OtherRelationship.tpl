@@ -43,13 +43,13 @@
 
 <strong>FIXME: changer les selecteurs pour exclure les relations avec des organisations</strong>
 
-    {include file="CRM/Contact/Page/View/RelationshipSelector.tpl" context="current"}
+    {include file="CRM/Orgrelationshiptab/Page/View/RelationshipSelector.tpl" context="current"}
 
     <div class="spacer"></div>
     {* display past relationships *}
     <h3 class="font-red">{ts}Inactive Relationships{/ts}</h3>
     <div class="help">{ts}These relationships are Disabled OR have a past End Date.{/ts}</div>
-    {include file="CRM/Contact/Page/View/RelationshipSelector.tpl" context="past"}
+    {include file="CRM/Orgrelationshiptab/Page/View/RelationshipSelector.tpl" context="past"}
   </div>
 
   {include file="CRM/common/enableDisableApi.tpl"}

@@ -6,4 +6,9 @@
     <title>Orgrelationshiptab</title>
     <access_arguments>access CiviCRM</access_arguments>
   </item>
+  <item>
+    <path>civicrm/orgrelationship/ajax/otherrelationships</path>
+    <page_callback>CRM_Orgrelationshiptab_Page_Ajax::getOtherRelationships</page_callback>
+    <access_arguments>access CiviCRM;view my contact</access_arguments>
+  </item>
 </menu>
