@@ -36,7 +36,6 @@
 
   // http://civicrm.org/licensing
   // Adds ajaxy behavior to a simple CiviCRM page
-  console.log('test');
   CRM.$(function($) {
     var active = 'a.button, a.action-item:not(.crm-enable-disable), a.crm-popup';
     $('#contact-summary-orgrelationship-tab')
@@ -45,7 +44,7 @@
       // Open action links in a popup
       .off('.crmLivePage')
       .on('click.crmLivePage', active, CRM.popup)
-      .on('crmPopupFormSuccess.crmLivePage', active, CRM.refreshParent);
+      ;//.on('crmPopupFormSuccess.crmLivePage', active, CRM.refreshParent);
   });
 </script>
 {/literal}

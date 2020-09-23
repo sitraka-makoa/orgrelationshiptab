@@ -152,14 +152,43 @@ function orgrelationshiptab_civicrm_tabset($tabsetName, &$tabs, $context) {
 
     if (CRM_Contact_BAO_Contact::getContactType($contactId) == 'Organization') {
 
+      // update non org relationship count
+      $sql = "
+        SELECT count(*)
+        FROM civicrm_relationship r
+          INNER JOIN civicrm_contact ca ON r.contact_id_a = ca.id
+          INNER JOIN civicrm_contact cb ON r.contact_id_b = cb.id
+        WHERE r.is_active = 1 AND (
+             (contact_id_a = %1 AND cb.contact_type != 'Organization')
+          OR (contact_id_b = %1 AND ca.contact_type != 'Organization') )";
+      $count = CRM_Core_DAO::singleValueQuery($sql, [1 => [$contactId, 'Integer']]);
+
+      foreach($tabs as $idx => $tab) {
+        if ($tab['id'] == 'rel') {
+          $tabs[$idx]['count'] = $count;
+          break;
+        }
+      }
+
+      // add new tab
+      $sql = "
+        SELECT count(*)
+        FROM civicrm_relationship r
+          INNER JOIN civicrm_contact ca ON r.contact_id_a = ca.id
+          INNER JOIN civicrm_contact cb ON r.contact_id_b = cb.id
+        WHERE r.is_active = 1 AND (
+             (contact_id_a = %1 AND cb.contact_type = 'Organization')
+          OR (contact_id_b = %1 AND ca.contact_type = 'Organization') )";
+      $count = CRM_Core_DAO::singleValueQuery($sql, [1 => [$contactId, 'Integer']]);
+
       $url = CRM_Utils_System::url( 'civicrm/orgrelationship/view/tab',
                                     "reset=1&snippet=1&force=1&cid=$contactId" );
-
       $tabs[] = [
         'id'    => 'orgrelationshiptab',
         'url'   => $url,
         'title' => E::ts('Organization relations'),
         'weight' => 300,
+        'count' => $count,
       ];
 
       CRM_Core_Resources::singleton()->addStyleFile(E::LONG_NAME, 'css/orgrelationshiptab.css', 15, 'html-header');
