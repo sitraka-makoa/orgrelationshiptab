@@ -143,7 +143,7 @@ class CRM_Orgrelationshiptab_Utils {
         'cid' => $contactId,
         'rtype' => 'b_a',
       ], 
-      ts('more'), FALSE, 'orgrel.list', 'Orgrelation', $relationshipId
+      E::ts('more'), FALSE, 'orgrel.list', 'Orgrelation', $relationshipId
     );
   }
 
