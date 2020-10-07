@@ -2,7 +2,7 @@
 
 ![Screenshot](/images/screenshot.png)
 
-(*FIXME: In one or two paragraphs, describe what the extension does and why one would download it. *)
+CiviCRM / Contact / Ajoute un onglet Hierarchie des organisations par type de relations et masque les organisations dans l'onglet standard "relations"
 
 The extension is licensed under [AGPL-3.0](LICENSE.txt).
 
@@ -42,3 +42,7 @@ cv en orgrelationshiptab
 ## Known Issues
 
 (* FIXME *)
+
+## Support
+
+Samuel Vanhove | Symbiotic | samuel@symbiotic.coop

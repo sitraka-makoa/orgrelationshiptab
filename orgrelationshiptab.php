@@ -187,7 +187,7 @@ function orgrelationshiptab_civicrm_tabset($tabsetName, &$tabs, $context) {
         'id'    => 'orgrelationshiptab',
         'url'   => $url,
         'title' => E::ts('Organization relations'),
-        'weight' => 300,
+        'weight' => 335,
         'count' => $count,
       ];
 
