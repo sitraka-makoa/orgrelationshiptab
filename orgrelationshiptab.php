@@ -193,6 +193,13 @@ function orgrelationshiptab_civicrm_tabset($tabsetName, &$tabs, $context) {
 
       CRM_Core_Resources::singleton()->addStyleFile(E::LONG_NAME, 'css/orgrelationshiptab.css', 15, 'html-header');
     }
+    elseif (isset($context['caller']) && $context['caller'] == 'ContactLayout') {
+      $tabs[] = [
+        'id'    => 'orgrelationshiptab',
+        'title' => E::ts('Organization relations'),
+        'weight' => 335,
+      ];
+    }
 
   }
 } 
