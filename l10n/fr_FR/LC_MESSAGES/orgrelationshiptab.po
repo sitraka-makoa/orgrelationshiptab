@@ -1,0 +1,4 @@
+#: orgrelationshiptab.php
+msgid "Organization relations"
+msgstr "Hierarchie des organisations"
+

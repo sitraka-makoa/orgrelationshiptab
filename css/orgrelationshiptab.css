@@ -27,5 +27,7 @@
   right: 0;*/
   float: right;
 }
-
+.crm-container #contact-summary-orgrelationship-tab .actions .panel {
+  border:0;
+}
 

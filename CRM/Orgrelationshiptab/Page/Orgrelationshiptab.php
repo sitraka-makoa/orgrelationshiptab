@@ -98,6 +98,8 @@ class CRM_Orgrelationshiptab_Page_Orgrelationshiptab extends CRM_Core_Page /*CRM
 
     // copy/paste from Relationship tab
     if (!(self::$_links)) {
+      $disableExtra = ts('Are you sure you want to disable this relationship?');
+
       self::$_links = array(
         CRM_Core_Action::VIEW => array(
           'name' => ts('View'),
@@ -111,29 +113,11 @@ class CRM_Orgrelationshiptab_Page_Orgrelationshiptab extends CRM_Core_Page /*CRM
           'qs' => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&rtype=%%rtype%%',
           'title' => ts('Edit Relationship'),
         ),
-        CRM_Core_Action::ENABLE => array(
-          'name' => ts('Enable'),
-          'ref' => 'crm-enable-disable',
-          'title' => ts('Enable Relationship'),
-        ),
-        CRM_Core_Action::DISABLE => array(
-          'name' => ts('Disable'),
-          'ref' => 'crm-enable-disable',
-          'title' => ts('Disable Relationship'),
-        ),
         CRM_Core_Action::DELETE => array(
           'name' => ts('Delete'),
           'url' => 'civicrm/contact/view/rel',
           'qs' => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&rtype=%%rtype%%',
           'title' => ts('Delete Relationship'),
-        ),
-        // FIXME: Not sure what to put as the key.
-        // We want to use it differently later anyway (see CRM_Contact_BAO_Relationship::getRelationship). NONE should make it hidden by default.
-        CRM_Core_Action::NONE => array(
-          'name' => ts('Manage Case'),
-          'url' => 'civicrm/contact/view/case',
-          'qs' => 'action=view&reset=1&cid=%%clientid%%&id=%%caseid%%',
-          'title' => ts('Manage Case'),
         ),
       );
     }

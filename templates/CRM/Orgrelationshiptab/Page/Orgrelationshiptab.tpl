@@ -19,10 +19,9 @@
   {* display past relationships *}
   <h3 class="font-red">{ts}Inactive Relationships{/ts}</h3>
   <div class="help">{ts}These relationships are Disabled OR have a past End Date.{/ts}</div>
-  {include file="CRM/Orgrelationshiptab/Page/View/OrgrelationshipSelector.tpl" context="past" relationship_type_id="11"}
+  {include file="CRM/Orgrelationshiptab/Page/View/OrgrelationshipSelector.tpl" context="past"}
 </div>
 
-{include file="CRM/common/enableDisableApi.tpl"}
 
 {literal}
 <script type="text/javascript">
@@ -37,14 +36,17 @@
   // http://civicrm.org/licensing
   // Adds ajaxy behavior to a simple CiviCRM page
   CRM.$(function($) {
-    var active = 'a.button, a.action-item:not(.crm-enable-disable), a.crm-popup';
+    //var active = 'a.button, a.action-item, a.crm-popup';
+    var active = "a.button, a.action-item:not(.crm-enable-disable), a.crm-popup';
+    var cid = {/literal}{$contactId}{literal};
     $('#contact-summary-orgrelationship-tab')
       // Widgetize the content area
-      .crmSnippet()
+      .crmSnippet().crmSnippet('option', 'url', '/civicrm/orgrelationship/view/tab?reset=1&snippet=1&force=1&cid='+cid)
       // Open action links in a popup
       .off('.crmLivePage')
       .on('click.crmLivePage', active, CRM.popup)
-      ;//.on('crmPopupFormSuccess.crmLivePage', active, CRM.refreshParent);
+      .on('crmPopupFormSuccess.crmLivePage', active, CRM.refreshParent);
   });
+  
 </script>
 {/literal}

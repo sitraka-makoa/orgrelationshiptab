@@ -41,8 +41,6 @@
       {include file="CRM/Contact/Page/View/RelationshipPerm.tpl" permType=1 afterText=true}
     </div>
 
-<strong>FIXME: changer les selecteurs pour exclure les relations avec des organisations</strong>
-
     {include file="CRM/Orgrelationshiptab/Page/View/RelationshipSelector.tpl" context="current"}
 
     <div class="spacer"></div>
