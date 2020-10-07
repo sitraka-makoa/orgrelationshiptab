@@ -21,11 +21,15 @@
 }
 .crm-container #contact-summary-orgrelationship-tab div.reltree {
   display: table;
+  width: 100%;
 }
 .crm-container #contact-summary-orgrelationship-tab .actions {
   /*position: absolute;
   right: 0;*/
   float: right;
+}
+.crm-container #contact-summary-orgrelationship-tab div.reltree li {
+  clear: both;
 }
 .crm-container #contact-summary-orgrelationship-tab .actions .panel {
   border:0;

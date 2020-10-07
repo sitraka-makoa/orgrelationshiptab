@@ -8,12 +8,14 @@
 
   <h3>{ts}Current Relationships{/ts}</h3>
 
-  {foreach from=$tree item="subtree" key="rellabel"}
-    <h4>{$rellabel}</h4>
-    <div class="reltree">
-    {include file="CRM/Orgrelationshiptab/Page/OrgrelationshipTree.tpl" tree=$subtree level=0}
-    </div>
-  {/foreach}
+  <div class="crm-clear">
+    {foreach from=$tree item="subtree" key="rellabel"}
+      <h4>{$rellabel}</h4>
+      <div class="reltree">
+      {include file="CRM/Orgrelationshiptab/Page/OrgrelationshipTree.tpl" tree=$subtree level=0}
+      </div>
+    {/foreach}
+  </div>
 
   <div class="spacer"></div>
   {* display past relationships *}
