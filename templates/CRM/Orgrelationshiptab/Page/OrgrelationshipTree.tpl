@@ -4,9 +4,11 @@
     <li id="orgli_{$id}" class="data crm-entity{if $node.data.id eq $current} current{/if}" data-entity="relationship" data-id="{$id}">
       <span class="content">
         {if $node.data.id eq $current}
-          <strong>{$node.data.display_name}</strong>&nbsp;[{$node.data.id}]
+          <strong>{$node.data.display_name} &nbsp; - </strong><strong>  &nbsp;{$node.data.postal_code}</strong> &nbsp; <strong>{$node.data.city}</strong>&nbsp; - &nbsp;[{$node.data.id}]
+
         {else}
-          <a href="{$node.data.view_url}">{$node.data.display_name}</a>&nbsp;[<a href="{$node.data.view_url}">{$node.data.id}</a>]
+          <a href="{$node.data.view_url}">{$node.data.display_name} &nbsp; - </a>&nbsp;{$node.data.postal_code}&nbsp; &nbsp;{$node.data.city}
+          &nbsp; - &nbsp;[<a href="{$node.data.view_url}">{$node.data.id}</a>]
         {/if}
         <span class="actions">{$node.action}</span>
       </span>

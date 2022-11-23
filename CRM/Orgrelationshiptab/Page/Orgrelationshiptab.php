@@ -70,6 +70,7 @@ class CRM_Orgrelationshiptab_Page_Orgrelationshiptab extends CRM_Core_Page /*CRM
   function browse() {
 
     $tree = CRM_Orgrelationshiptab_Utils::getOrgHierarchy($this->_contactId, self::links());
+
     $this->assign('tree', $tree);
 
 

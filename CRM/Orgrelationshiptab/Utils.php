@@ -6,7 +6,7 @@ class CRM_Orgrelationshiptab_Utils {
 
   static public function getOrgHierarchy($contactId, $links) {
 
-    // FIXME: some relation are the other way around - i.e. 
+    // FIXME: some relation are the other way around - i.e.
     $hiearchy = [];
 
     // 1. get relationship types
@@ -36,11 +36,17 @@ class CRM_Orgrelationshiptab_Utils {
 
     }
 
+    if (!empty($hierarchy)) {
+      $original_hierarchy = reset(reset($hierarchy))['children'];
+      uasort($original_hierarchy, fn($a, $b) => $a['data']['postal_code'] <=> $b['data']['postal_code']);
+      $hierarchy[array_keys($hierarchy)[0]][array_keys(reset($hierarchy))[0]]['children'] = $original_hierarchy;
+    }
+
     return $hierarchy;
 
   }
 
-  static protected function getRootParents($contactId, $relationship_type_id, $max) {
+  static public function getRootParents($contactId, $relationship_type_id, $max, $excludeSelf = FALSE) {
     // TODO:
 
     // avoid infinite loop
@@ -49,19 +55,19 @@ class CRM_Orgrelationshiptab_Utils {
 
     $result = civicrm_api3('Relationship', 'get', [
       'sequential' => 1,
-      'contact_id_b' => $contactId,
+      'contact_id_a' => $contactId,
       'is_active' => 1,
       'relationship_type_id' => $relationship_type_id,
       'contact_id_a.contact_type' => "Organization",
-      'return' => ['contact_id_a'],
+      'return' => ['contact_id_b'],
       'option.limit' => 0,
     ]);
 
     // recursive if parent exist
-    if ($result['count'] > 0 && isset($result['values'][0]['contact_id_a'])) {
+    if ($result['count'] > 0 && isset($result['values'][0]['contact_id_b'])) {
       $items = [];
       foreach ($result['values'] as $rel) {
-        $parent = $rel['contact_id_a'];
+        $parent = $rel['contact_id_b'];
         $roots = self::getRootParents($parent, $relationship_type_id, $max-1);
         //Civi::log()->debug('new roots -- ' . print_r($roots,1));
         $items = array_merge($items,$roots);
@@ -70,11 +76,15 @@ class CRM_Orgrelationshiptab_Utils {
       return array_unique($items);
     }
     else {
-      return [$contactId];
+      if ($excludeSelf) {
+        return [];
+      } else {
+        return [$contactId];
+      }
     }
   }
 
-  static protected function getHierarchy($contactId, $relationship_type_id, $links, $max=5) {
+  static public function getHierarchy($contactId, $relationship_type_id, $links, $max=5) {
     $hierarchy = [];
 
     if ($max == 0) return [];
@@ -88,17 +98,17 @@ class CRM_Orgrelationshiptab_Utils {
 
     // TODO: filter by contact type - only organization
     $relationships = civicrm_api3('Relationship', 'get', [
-      'contact_id_a' => $contactId,
-      'contact_id_b.contact_type' => "Organization",
+      'contact_id_b' => $contactId,
+      'contact_id_a.contact_type' => "Organization",
       'is_active' => 1,
       'relationship_type_id' => $relationship_type_id,
-      'return' => ['id', 'contact_id_b', 'relationship_type_id.name_a_b'],
+      'return' => ['id', 'contact_id_a', 'relationship_type_id.name_a_b'],
       'option.limit' => 0,
       'option.sort' => 'contact_id_b.display_name',
     ]);
 
     foreach ($relationships['values'] as $relationship) {
-      $childId = $relationship['contact_id_b'];
+      $childId = $relationship['contact_id_a'];
 
       // relationship data
       $hierarchy[$childId]['relationship'] = $relationship;
@@ -113,7 +123,7 @@ class CRM_Orgrelationshiptab_Utils {
 
       // recursive
       $hierarchy[$childId]['children'] = self::getHierarchy($childId, $relationship_type_id, $links, $max-1);
-      
+
     }
 
     return $hierarchy;
@@ -125,10 +135,11 @@ class CRM_Orgrelationshiptab_Utils {
     // API v4 is not working ??
     $contact = civicrm_api3('Contact', 'getsingle', [
       'id' => $contactId,
-      'return' => ['display_name', 'id']
+      'return' => ['city', 'postal_code', 'display_name', 'id'],
+      'options' => array('sort' => "postal_code"),
     ]);
     $contact['view_url'] = CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $contactId);
-    
+
     return $contact;
 
     //return ['id' => $contactId];
@@ -137,14 +148,21 @@ class CRM_Orgrelationshiptab_Utils {
 
   static public function getActions($links, $relationshipId, $contactId, $rtype) {
     $action = array_sum(array_keys($links));
-    return CRM_Core_Action::formLink($links, $action, 
+    return CRM_Core_Action::formLink($links, $action,
       [
         'id' => $relationshipId,
         'cid' => $contactId,
         'rtype' => $rtype,
-      ], 
+      ],
       E::ts('more'), FALSE, 'orgrel.list', 'Orgrelation', $relationshipId
     );
+  }
+
+  static public function getContactById ($id) {
+    return civicrm_api3('Contact', 'get', array(
+      'sequential' => 1,
+      'id' => $id
+    ));
   }
 
 }

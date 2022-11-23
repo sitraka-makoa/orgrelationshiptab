@@ -49,6 +49,6 @@
       .on('click.crmLivePage', active, CRM.popup)
       .on('crmPopupFormSuccess.crmLivePage', active, CRM.refreshParent);
   });
-  
+
 </script>
 {/literal}
