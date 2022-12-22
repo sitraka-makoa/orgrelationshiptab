@@ -165,4 +165,15 @@ class CRM_Orgrelationshiptab_Utils {
     ));
   }
 
+  public static function get_contact_id_master($contact_id){
+    $contact_id_master = 0;
+    $arr_contact_id_master = CRM_Orgrelationshiptab_Utils::getRootParents($contact_id, 11, 5);
+    //Civi::log()->debug(' - phx_cotisations_civicrm_custom arr_contact_id_master : '.$arr_contact_id_master[0]['id']);
+    foreach ($arr_contact_id_master as $root) {
+      $contact_id_master = $root;
+      break;
+    }
+    return $contact_id_master;
+  }
+
 }
