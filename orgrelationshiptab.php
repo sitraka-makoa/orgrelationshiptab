@@ -224,3 +224,13 @@ function orgrelationshiptab_civicrm_alterTemplateFile($formName, &$form, $contex
 
 }
 
+/**
+ * hook_civicrm_pre 
+ * Permet de mettre en majuscule le nom
+ */
+function orgrelationshiptab_civicrm_pre($op, $objectName, $id, &$params) {
+  if ($objectName == 'Individual' && isset($params['last_name'])) {
+    $current_last_name = strtoupper($params['last_name']); 
+    $params['last_name'] = $current_last_name;
+  }
+}
