@@ -35,3 +35,6 @@
   border:0;
 }
 
+#address_custom_11_1 .collapsible-title {
+  display: none;
+}
