@@ -229,7 +229,10 @@ function orgrelationshiptab_civicrm_alterTemplateFile($formName, &$form, $contex
  * Permet de mettre en majuscule le nom
  */
 function orgrelationshiptab_civicrm_pre($op, $objectName, $id, &$params) {
-  if ($objectName == 'Individual' && isset($params['last_name'])) {
+  $white_list = ['Organization', 'Individual'];
+  if (in_array($objectName, $white_list) && (isset($params['last_name']) || isset($params['organization_name']))) {
+    $organization_name = strtoupper($params['organization_name']); 
+    $params['organization_name'] = $organization_name;
     $current_last_name = strtoupper($params['last_name']); 
     $params['last_name'] = $current_last_name;
   }
